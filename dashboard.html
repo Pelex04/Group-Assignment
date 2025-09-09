@@ -89,7 +89,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-<<<<<<< HEAD
      
      
      document.addEventListener("DOMContentLoaded", () => {
@@ -105,7 +104,6 @@ sidebar.style.display = "none";
     
   });
 });
-=======
       $(document).ready(() => {
         // Question 2
         async function updateDashboard() {
@@ -145,7 +143,6 @@ sidebar.style.display = "none";
               scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Sales' } } }
             }
           });
->>>>>>> a4b6c80487313e77775dc0b14b747bfa4114cb3c
 
           // Line Chart (Site Visitors)
           const visitorsData = await fetch('http://localhost:3000/visitors').then(res => res.json());
