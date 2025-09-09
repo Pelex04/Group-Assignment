@@ -35,7 +35,21 @@
             <div class="section-header">Details of avalialble products</div>
             <div class="section-content">
               <!-- section content-->
-              <h4>Implement here..</h4>
+             <table id="products-table" border="1" style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
             </div>
           </div>
         </div>
@@ -44,9 +58,29 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $("document").ready(() => {
-        //
+      $("document").ready(function() {
+        fetch("http://localhost:3000/products/")
+        .then(response => response.json())
+      .then(data => {
+        const tbody = $('#products-table tbody');
+        tbody.empty();
+        data.forEach(product => {
+     tbody.append(`
+            <tr>
+              <td>${product.id}</td>
+              <td>${product.name}</td>
+              <td>${product.price}</td>
+              <td>${product.quantity}</td>
+              <td>${product.description}</td>
+            </tr>
+          `);
+        });
+      })
+      .catch(error => {
+        $('#products-table tbody').html('<tr><td colspan="4">Failed to load data.</td></tr>');
+        console.error('Error fetching products:', error);
       });
+  });
     </script>
   </body>
 </html>
