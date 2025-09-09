@@ -32,3 +32,20 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+sidebar.style.display = "none";
+  
+  navToggle.addEventListener("click", () => {
+   
+    if (sidebar.style.display === "none") {
+      sidebar.style.display = "block";}
+    else {sidebar.style.display = "none";}
+      
+    
+    sidebar.classList.toggle("sidebar");
+    sidebar.style.display = "block";
+  });
+
+   $("document").ready(() => {
+
+   sidebar.style.display = "block";
