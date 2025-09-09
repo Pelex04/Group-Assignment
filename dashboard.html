@@ -54,51 +54,136 @@
           </div>
         </div>
         <div class="charts-container">
-          <!-- This is the chart content section-->
-          <h4>Implement here..</h4>
+          <!-- Scatter Chart -->
+          <div class="chart-card">
+            <h4 class="blue">Sales Trend</h4>
+            <p style="padding: 0.3rem; color: #666;">Sales in the past 30 days</p>
+            <canvas id="scatterChart" width="400" height="250"></canvas>
+          </div>
+
+          <!-- Line Chart -->
+          <div class="chart-card">
+            <h4 class="purple">Site Visitors - last 10 Days</h4>
+            <p style="padding: 0.3rem; color: #666;">Visitors in the past 10 days</p>
+            <canvas id="lineChart" width="400" height="250"></canvas>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="chart-card">
+            <h4 class="cyan">Categories Spread</h4>
+            <p style="padding: 0.3rem; color: #666;">Top selling product categories</p>
+            <canvas id="pieChart" width="400" height="250"></canvas>
+          </div>
+
+          <!-- Bar Chart -->
+          <div class="chart-card">
+            <h4 class="red">Product trend</h4>
+            <p style="padding: 0.3rem; color: #666;">Best selling products</p>
+            <canvas id="barChart" width="400" height="250"></canvas>
+          </div>
         </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-     /*
-        $("document").ready(() => {
-  const navToggle = document.getElementById("toggle-nav");
-  const sidebar = document.getElementById("sidebar");
+      $(document).ready(() => {
+        // Question 2
+        async function updateDashboard() {
+          const response = await fetch("http://localhost:3000/statistics");
+          const data = await response.json();
+          
+          const summaries = document.querySelectorAll('.summary');
+          
+          summaries.forEach(summary => {
+            const heading = summary.querySelector('.summary-heading').textContent.toLowerCase();
+            const valueElement = summary.querySelector('h2');
+            
+            if (data[heading]) {
+              valueElement.textContent = data[heading];
+            }
+          });
+        }
+        updateDashboard();
 
-   fetch("http://localhost:3000/statistics" )
-     .then(response => response.json())
-     .then((data) =>{
-      console.log(data)
-     })
-     navToggle.addEventListener("click", () => {
-   
-    sidebar.classList.toggle("sidebar");
-    sidebar.style.display = "block";
-  });
-});
-*/
-     
-  //Question 2
-  async function updateDashboard() {
-  const response = await fetch("http://localhost:3000/statistics");
-  const data = await response.json();
-  
-  const summaries = document.querySelectorAll('.summary');
-  
-  summaries.forEach(summary => {
-    const heading = summary.querySelector('.summary-heading').textContent.toLowerCase();
-    const valueElement = summary.querySelector('h2');
-    
-    if (data[heading]) {
-      valueElement.textContent = data[heading];
-    }
-  });
-}
+        // Question 4
+        async function fetchDataAndCreateCharts() {
+          // Scatter Chart (Sales Trend)
+          const salesData = await fetch('http://localhost:3000/sales').then(res => res.json());
+          const scatterCtx = document.getElementById('scatterChart').getContext('2d');
+          new Chart(scatterCtx, {
+            type: 'scatter',
+            data: {
+              datasets: [{
+                label: 'Sales in the past 30 days',
+                data: salesData,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Sales' } } }
+            }
+          });
 
+          // Line Chart (Site Visitors)
+          const visitorsData = await fetch('http://localhost:3000/visitors').then(res => res.json());
+          const lineCtx = document.getElementById('lineChart').getContext('2d');
+          new Chart(lineCtx, {
+            type: 'line',
+            data: {
+              labels: visitorsData.day,
+              datasets: [{
+                label: 'Visitors in the past 10 days',
+                data: visitorsData.count,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 2,
+                fill: false
+              }]
+            },
+            options: {
+              scales: { y: { beginAtZero: true } }
+            }
+          });
 
-updateDashboard();
+          // Pie Chart (Categories Spread)
+          const pieData = await fetch('http://localhost:3000/sold_products').then(res => res.json());
+          const pieCtx = document.getElementById('pieChart').getContext('2d');
+          new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+              labels: pieData.category,
+              datasets: [{
+                data: pieData.count,
+                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(153, 102, 255, 0.2)']
+              }]
+            }
+          });
+
+          // Bar Chart (Product Trend)
+          const barData = await fetch('http://localhost:3000/top_products').then(res => res.json());
+          const barCtx = document.getElementById('barChart').getContext('2d');
+          new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: barData.product,
+              datasets: [{
+                label: 'Best selling products',
+                data: barData.count,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: { y: { beginAtZero: true } }
+            }
+          });
+        }
+        fetchDataAndCreateCharts();
+      });
     </script>
   </body>
 </html>
