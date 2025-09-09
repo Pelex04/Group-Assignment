@@ -34,15 +34,15 @@
           <div class="section-container">
             <div class="section-header">Enter product details</div>
             <div class="section-content">
-              <form action="">
+              <form action="http://localhost:3000/products/" id="Form" method="post">
                 <label class="label" for="product">Product Name</label>
-                <input type="text" /><br />
+                <input type="text" minlength="5" maxlength="50" required/><br />
                 <label class="label" for="price">Price</label>
-                <input type="number" /><br />
+                <input type="number" required min="0" step="0.01"/><br />
                 <label class="label" for="category">Quantity</label>
-                <input name="quantity" id="quantity" type="number" />
+                <input name="quantity" id="quantity" type="number" min="0" step="0.01" required/>
                 <label class="label" for="description">Description</label>
-                <textarea rows="6" name="description" id=""></textarea>
+                <textarea rows="6" name="description" id="" minlength="5" maxlength="200" required></textarea>
                 <button class="form-button" id="save">Save</button>
               </form>
             </div>
@@ -54,17 +54,22 @@
     <div id="myModal" class="modal">
       <div class="modal-content">
         <span class="close" id="span">&times;</span>
-        <h3>Message</h3>
-        <p>Edit me for success and error messages</p>
+        <h3>Invalid Input</h3>
+        <p>the data you have entered is Invalid and cannot be submitted</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
       $("document").ready(() => {
 
         $("#save").click((e) => {
-          e.preventDefault();
-          $("#myModal").css("display", "block");
+          const form = document.getElementById("Form");
+          if (!form.checkValidity()) {
+            e.preventDefault();
+            $("#myModal").css("display", "block");
+          }
+      
         });
 
         $("#span").click((e) => {
