@@ -43,6 +43,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Description</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -72,6 +73,10 @@
               <td>${product.price}</td>
               <td>${product.quantity}</td>
               <td>${product.description}</td>
+               <td>
+                <span style="color:blue; cursor:pointer;">Edit</span> 
+                <span style="color:blue; cursor:pointer;">Delete</span>
+              </td>
             </tr>
           `);
         });
