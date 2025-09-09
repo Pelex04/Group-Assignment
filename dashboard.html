@@ -62,21 +62,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-     
+     /*
         $("document").ready(() => {
   const navToggle = document.getElementById("toggle-nav");
   const sidebar = document.getElementById("sidebar");
 
-  navToggle.addEventListener("click", () => {
+   fetch("http://localhost:3000/statistics" )
+     .then(response => response.json())
+     .then((data) =>{
+      console.log(data)
+     })
+     navToggle.addEventListener("click", () => {
    
     sidebar.classList.toggle("sidebar");
     sidebar.style.display = "block";
   });
 });
-
+*/
      
-     
+  //Question 2
+  async function updateDashboard() {
+  const response = await fetch("http://localhost:3000/statistics");
+  const data = await response.json();
+  
+  const summaries = document.querySelectorAll('.summary');
+  
+  summaries.forEach(summary => {
+    const heading = summary.querySelector('.summary-heading').textContent.toLowerCase();
+    const valueElement = summary.querySelector('h2');
+    
+    if (data[heading]) {
+      valueElement.textContent = data[heading];
+    }
+  });
+}
 
+
+updateDashboard();
     </script>
   </body>
 </html>
