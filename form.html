@@ -55,7 +55,7 @@
       <div class="modal-content">
         <span class="close" id="span">&times;</span>
         <h3>Invalid Input</h3>
-        <p>the data you have entered in Invalid</p>
+        <p>the data you have entered is Invalid and cannot be submitted</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -64,8 +64,12 @@
       $("document").ready(() => {
 
         $("#save").click((e) => {
-          e.preventDefault();
-          $("#myModal").css("display", "block");
+          const form = document.getElementById("Form");
+          if (!form.checkValidity()) {
+            e.preventDefault();
+            $("#myModal").css("display", "block");
+          }
+      
         });
 
         $("#span").click((e) => {
