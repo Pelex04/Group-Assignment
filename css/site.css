@@ -2,6 +2,10 @@
   margin: 0;
   box-sizing: border-box;
 }
+.transform{
+  background-color:"rgb(60, 76, 203)";
+  display:"block";
+}
 body {
   font-family: Roboto, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: rgb(13, 13, 13);
@@ -343,3 +347,4 @@ td {
     transform: rotate(360deg);
   }
 }
+
